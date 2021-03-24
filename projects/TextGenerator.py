@@ -77,6 +77,20 @@ class TextGenerator:
             sentence = self.random_text[int(start):int(stop) + 1]
             print(" ".join(sentence))
 
+    def generate_full_sentences(self):
+        for _ in range(10):
+            full_sentences = []
+            start = choice([x for x in self.tokens[:-1] if not x.islower() and x[-1] not in "….!?"])
+            full_sentences.append(start)
+            while len(full_sentences) < 5 or (full_sentences[-1][-1] not in ".?!"):
+                tails = self.bigrams_w_tails_freq[full_sentences[-1]]
+                tail = []
+                count = []
+                for k, v in tails.most_common():
+                    tail.append(k), count.append(v)
+                full_sentences += choices(tail, tuple(count))
+            print(" ".join(full_sentences))
+            
     def generate_bigrams_sentences(self):
         for _ in range(10):
             full_sentences = []
